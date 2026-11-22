@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 
 import pandas as pd
 import streamlit as st
@@ -53,13 +54,23 @@ def render_footer() -> None:
     st.caption("ClauseWise AI — Terms & Conditions Plain-Language Analyzer (Problem C18)")
 
 
+def _clean_pdf_text(raw_text: str) -> str:
+    """Normalize broken PDF line wraps, hyphenation, and extra spaces."""
+    # Rejoin words split across line breaks with a hyphen
+    text = re.sub(r"-\s*\r?\n\s*", "", raw_text)
+    # Collapse single line breaks inside paragraphs while preserving paragraph gaps
+    paragraphs = re.split(r"\r?\n\s*\r?\n", text)
+    cleaned_paragraphs = [re.sub(r"\s+", " ", p).strip() for p in paragraphs]
+    return "\n\n".join(p for p in cleaned_paragraphs if p)
+
+
 def extract_uploaded_text(uploaded_file) -> str:
     """Extract plain text from an uploaded PDF or TXT file."""
     filename = uploaded_file.name.lower()
     if filename.endswith(".pdf"):
         reader = PdfReader(uploaded_file)
-        pages = [page.extract_text() or "" for page in reader.pages]
-        return "\n\n".join(p.strip() for p in pages if p.strip())
+        pages = [_clean_pdf_text(page.extract_text() or "") for page in reader.pages]
+        return "\n\n".join(p for p in pages if p)
     raw_bytes = uploaded_file.getvalue()
     return raw_bytes.decode("utf-8", errors="replace")
 

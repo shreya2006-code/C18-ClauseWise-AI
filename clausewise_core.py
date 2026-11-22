@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from functools import lru_cache
 from pathlib import Path
@@ -162,14 +163,29 @@ def extract_risk_items(parsed: Any) -> list[dict[str, Any]]:
     return []
 
 
+def _quote_matches_source(quote: str, source_text: str, norm_source: str, compact_source: str) -> bool:
+    """Check exact, whitespace-normalized, and space-stripped lowercase substring match."""
+    if quote in source_text:
+        return True
+    norm_quote = re.sub(r"\s+", " ", quote).strip()
+    if norm_quote and norm_quote in norm_source:
+        return True
+    compact_quote = re.sub(r"\s+", "", quote).lower()
+    return bool(compact_quote) and compact_quote in compact_source
+
+
 def verify_quotes_against_source(parsed: Any, source_text: str) -> tuple[bool, list[dict[str, Any]]]:
     """
-    Verify that every non-'NOT FOUND' exact_quote appears verbatim in source_text.
+    Verify that every non-'NOT FOUND' exact_quote appears in source_text
+    (exact, whitespace-normalized, or space-stripped fallback).
     Returns (all_verified, per_item_results).
     """
     items = extract_risk_items(parsed)
     if not items:
         return False, []
+
+    norm_source = re.sub(r"\s+", " ", source_text).strip()
+    compact_source = re.sub(r"\s+", "", source_text).lower()
 
     results: list[dict[str, Any]] = []
     all_ok = True
@@ -182,7 +198,7 @@ def verify_quotes_against_source(parsed: Any, source_text: str) -> tuple[bool, l
         elif quote.upper() == "NOT FOUND":
             verified = True
         else:
-            verified = quote in source_text
+            verified = _quote_matches_source(quote, source_text, norm_source, compact_source)
             if not verified:
                 all_ok = False
 
