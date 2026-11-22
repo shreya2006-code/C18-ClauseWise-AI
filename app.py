@@ -14,12 +14,15 @@ from clausewise_core import (
     MODEL_NAME,
     call_gemini,
     extract_risk_items,
+    get_disk_cached_result,
     get_genai_client,
     has_configured_api_key,
     has_legal_disclaimer,
     list_test_cases,
     load_prompt,
     parse_json_safe,
+    run_v3_chained,
+    save_disk_cached_result,
     truncate_tc_for_llm,
     verify_quotes_against_source,
 )
@@ -78,51 +81,39 @@ def extract_uploaded_text(uploaded_file) -> str:
 
 @st.cache_data(show_spinner=False)
 def run_analysis(prompt_key: str, tc_text: str) -> dict:
-    """Execute the selected prompt version against Gemini (cached per prompt + input)."""
+    """Execute the selected prompt version with persistent disk + memory caching."""
+    cached = get_disk_cached_result(prompt_key, tc_text)
+    if cached is not None:
+        return cached
+
     client = get_genai_client()
     llm_input = truncate_tc_for_llm(tc_text)
 
     if prompt_key == "v1_baseline":
         prompt = load_prompt("v1_baseline.txt").format(tc_text=llm_input)
         raw_out, latency = call_gemini(client, prompt, json_mode=False, temperature=0.3)
-        return {
+        result = {
             "prompt_key": prompt_key,
             "raw_output": raw_out,
             "step1_output": None,
             "latency": latency,
         }
-
-    if prompt_key == "v2_structured_risk":
+    elif prompt_key == "v2_structured_risk":
         prompt = load_prompt("v2_structured_risk.txt").format(tc_text=llm_input)
         raw_out, latency = call_gemini(
             client, prompt, json_mode=True, temperature=0.1, max_output_tokens=700
         )
-        return {
+        result = {
             "prompt_key": prompt_key,
             "raw_output": raw_out,
             "step1_output": None,
             "latency": latency,
         }
+    else:
+        result = run_v3_chained(client, tc_text)
 
-    # v3_chained: Step 1 (Extractor) -> Step 2 (Simplifier)
-    s1_prompt = load_prompt("v3_step1_extractor.txt").format(tc_text=llm_input)
-    s1_out, s1_lat = call_gemini(
-        client, s1_prompt, json_mode=True, temperature=0.1, max_output_tokens=750
-    )
-
-    s2_prompt = load_prompt("v3_step2_simplifier.txt").format(step1_json=s1_out)
-    s2_out, s2_lat = call_gemini(
-        client, s2_prompt, json_mode=True, temperature=0.1, max_output_tokens=1100
-    )
-
-    return {
-        "prompt_key": prompt_key,
-        "raw_output": s2_out,
-        "step1_output": s1_out,
-        "latency": round(s1_lat + s2_lat, 3),
-        "step1_latency": s1_lat,
-        "step2_latency": s2_lat,
-    }
+    save_disk_cached_result(prompt_key, tc_text, result)
+    return result
 
 
 def main() -> None:

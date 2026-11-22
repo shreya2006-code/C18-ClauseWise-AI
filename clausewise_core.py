@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -15,10 +16,40 @@ from google.genai import errors as genai_errors
 from google.genai import types
 
 MODEL_NAME = "gemini-3.5-flash-lite"
-MAX_INPUT_CHARS = 14000
+MAX_INPUT_CHARS = 9000
 BASE_DIR = Path(__file__).resolve().parent
 PROMPTS_DIR = BASE_DIR / "prompts"
 TEST_CASES_DIR = BASE_DIR / "test_cases"
+DISK_CACHE_DIR = BASE_DIR / ".cache"
+
+LEGAL_SIGNAL_TERMS = (
+    "privacy",
+    "data",
+    "fee",
+    "renew",
+    "arbitration",
+    "dispute",
+    "license",
+    "content",
+    "terminate",
+    "termination",
+    "cancel",
+    "liability",
+    "indemnif",
+    "refund",
+    "charge",
+    "waive",
+    "track",
+    "biometric",
+    "sell",
+    "share",
+    "train",
+)
+
+DEFAULT_DISCLAIMER = (
+    "Disclaimer: This summary provides plain-language information for educational "
+    "purposes only and is NOT legal advice."
+)
 
 
 def load_prompt(filename: str) -> str:
@@ -75,10 +106,66 @@ def get_genai_client(api_key: str | None = None) -> genai.Client:
 
 
 def truncate_tc_for_llm(tc_text: str, max_chars: int = MAX_INPUT_CHARS) -> str:
-    """Trim trailing boilerplate above max_chars to keep latency low on long PDFs."""
+    """
+    Prioritize high-signal legal paragraphs and cap input at max_chars (9000)
+    while preserving original paragraph order.
+    """
     if len(tc_text) <= max_chars:
         return tc_text
-    return tc_text[:max_chars]
+
+    paragraphs = [p.strip() for p in re.split(r"\r?\n\s*\r?\n", tc_text) if p.strip()]
+    if len(paragraphs) <= 1:
+        return tc_text[:max_chars]
+
+    scored = []
+    for idx, para in enumerate(paragraphs):
+        lower = para.lower()
+        hits = sum(1 for term in LEGAL_SIGNAL_TERMS if term in lower)
+        # Always prioritize title/intro paragraph (idx == 0), then highest keyword density
+        priority = (1000 if idx == 0 else hits, -idx)
+        scored.append((priority, idx, para))
+
+    scored.sort(reverse=True)
+    selected_indices: set[int] = set()
+    used_chars = 0
+
+    for _, idx, para in scored:
+        addition = len(para) + (2 if selected_indices else 0)
+        if used_chars + addition <= max_chars:
+            selected_indices.add(idx)
+            used_chars += addition
+
+    if not selected_indices:
+        return tc_text[:max_chars]
+
+    ordered = [paragraphs[i] for i in sorted(selected_indices)]
+    return "\n\n".join(ordered)
+
+
+def _disk_cache_path(prompt_key: str, tc_text: str) -> Path:
+    digest = hashlib.sha256(f"{prompt_key}\0{tc_text}".encode("utf-8")).hexdigest()
+    return DISK_CACHE_DIR / f"{digest}.json"
+
+
+def get_disk_cached_result(prompt_key: str, tc_text: str) -> dict | None:
+    """Load cached analysis result from .cache/ if present."""
+    path = _disk_cache_path(prompt_key, tc_text)
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def save_disk_cached_result(prompt_key: str, tc_text: str, result: dict) -> None:
+    """Persist analysis result to .cache/ for instant cross-restart retrieval."""
+    try:
+        DISK_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        path = _disk_cache_path(prompt_key, tc_text)
+        path.write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
+    except Exception:
+        pass
 
 
 def _build_thinking_config() -> types.ThinkingConfig:
@@ -124,6 +211,133 @@ def call_gemini(
             time.sleep(wait_sec)
 
     raise RuntimeError("Exceeded maximum retries calling Gemini API.")
+
+
+def _is_not_found_clause(clause: dict[str, Any]) -> bool:
+    severity = str(clause.get("severity", "")).strip().lower()
+    quote = str(clause.get("exact_quote", "")).strip().upper()
+    status = str(clause.get("status", "")).strip().upper()
+    return severity == "none" or quote == "NOT FOUND" or status == "NOT FOUND"
+
+
+def _build_clean_row(category: str) -> dict[str, Any]:
+    return {
+        "category": category,
+        "severity": "None",
+        "exact_quote": "NOT FOUND",
+        "plain_english_summary": "No concerning clause found in this section.",
+        "actionable_tip": "No action needed; keep a copy of these terms for your records.",
+    }
+
+
+def run_v3_chained(client: genai.Client, tc_text: str) -> dict[str, Any]:
+    """
+    Execute v3 2-step pipeline with smart clause windowing and Step 2 skipping
+    for 'NOT FOUND' / 'None' clauses.
+    """
+    llm_input = truncate_tc_for_llm(tc_text)
+
+    s1_prompt = load_prompt("v3_step1_extractor.txt").format(tc_text=llm_input)
+    s1_out, s1_lat = call_gemini(
+        client, s1_prompt, json_mode=True, temperature=0.1, max_output_tokens=750
+    )
+
+    s1_valid, s1_parsed = parse_json_safe(s1_out)
+    if not s1_valid or not isinstance(s1_parsed, dict):
+        # Fallback to full Step 2 if Step 1 JSON failed unexpectedly
+        s2_prompt = load_prompt("v3_step2_simplifier.txt").format(step1_json=s1_out)
+        s2_out, s2_lat = call_gemini(
+            client, s2_prompt, json_mode=True, temperature=0.1, max_output_tokens=1100
+        )
+        return {
+            "prompt_key": "v3_chained",
+            "raw_output": s2_out,
+            "step1_output": s1_out,
+            "latency": round(s1_lat + s2_lat, 3),
+            "step1_latency": s1_lat,
+            "step2_latency": s2_lat,
+        }
+
+    clauses = s1_parsed.get("extracted_clauses", [])
+    if not isinstance(clauses, list):
+        clauses = []
+
+    found_clauses = [c for c in clauses if isinstance(c, dict) and not _is_not_found_clause(c)]
+
+    # Zero risks found: skip Step 2 LLM call completely!
+    if not found_clauses:
+        clean_table = [
+            _build_clean_row(str(c.get("category", "Category")))
+            for c in clauses
+            if isinstance(c, dict)
+        ]
+        merged = {
+            "tldr_summary": (
+                "No concerning consumer risks were found across the five audited categories. "
+                "These terms appear fair and transparent."
+            ),
+            "risk_table": clean_table,
+            "disclaimer": DEFAULT_DISCLAIMER,
+        }
+        return {
+            "prompt_key": "v3_chained",
+            "raw_output": json.dumps(merged, ensure_ascii=False),
+            "step1_output": s1_out,
+            "latency": s1_lat,
+            "step1_latency": s1_lat,
+            "step2_latency": 0.0,
+        }
+
+    # Send ONLY active risky clauses to Step 2
+    filtered_s1 = {
+        "document_tone": s1_parsed.get("document_tone", "Restrictive"),
+        "extracted_clauses": found_clauses,
+    }
+    s2_prompt = load_prompt("v3_step2_simplifier.txt").format(
+        step1_json=json.dumps(filtered_s1, ensure_ascii=False)
+    )
+    s2_out, s2_lat = call_gemini(
+        client, s2_prompt, json_mode=True, temperature=0.1, max_output_tokens=1100
+    )
+
+    s2_valid, s2_parsed = parse_json_safe(s2_out)
+    if s2_valid and isinstance(s2_parsed, dict):
+        s2_rows = {
+            str(r.get("category", "")).strip(): r
+            for r in s2_parsed.get("risk_table", [])
+            if isinstance(r, dict)
+        }
+        merged_table = []
+        for c in clauses:
+            if not isinstance(c, dict):
+                continue
+            cat = str(c.get("category", "")).strip()
+            if _is_not_found_clause(c):
+                merged_table.append(_build_clean_row(cat))
+            elif cat in s2_rows:
+                merged_table.append(s2_rows[cat])
+
+        # Include any extra rows Step 2 returned under slightly altered category names
+        seen_cats = {str(r.get("category", "")).strip() for r in merged_table}
+        for r in s2_parsed.get("risk_table", []):
+            if isinstance(r, dict) and str(r.get("category", "")).strip() not in seen_cats:
+                merged_table.append(r)
+
+        s2_parsed["risk_table"] = merged_table
+        if not s2_parsed.get("disclaimer"):
+            s2_parsed["disclaimer"] = DEFAULT_DISCLAIMER
+        final_raw = json.dumps(s2_parsed, ensure_ascii=False)
+    else:
+        final_raw = s2_out
+
+    return {
+        "prompt_key": "v3_chained",
+        "raw_output": final_raw,
+        "step1_output": s1_out,
+        "latency": round(s1_lat + s2_lat, 3),
+        "step1_latency": s1_lat,
+        "step2_latency": s2_lat,
+    }
 
 
 def strip_markdown_fences(text: str) -> str:
