@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from google import genai
+from google.genai import errors as genai_errors
 from google.genai import types
 
 MODEL_NAME = "gemini-3.5-flash-lite"
@@ -46,21 +47,31 @@ def call_gemini(
     prompt_text: str,
     json_mode: bool = False,
     temperature: float = 0.1,
+    max_retries: int = 4,
 ) -> tuple[str, float]:
-    """Call Gemini model and return (response_text, latency_seconds)."""
+    """Call Gemini model with transient-error backoff and return (response_text, latency_seconds)."""
     config_kwargs: dict[str, Any] = {"temperature": temperature}
     if json_mode:
         config_kwargs["response_mime_type"] = "application/json"
 
-    start = time.perf_counter()
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=prompt_text,
-        config=types.GenerateContentConfig(**config_kwargs),
-    )
-    latency = round(time.perf_counter() - start, 3)
-    text = (response.text or "").strip()
-    return text, latency
+    for attempt in range(max_retries + 1):
+        start = time.perf_counter()
+        try:
+            response = client.models.generate_content(
+                model=MODEL_NAME,
+                contents=prompt_text,
+                config=types.GenerateContentConfig(**config_kwargs),
+            )
+            latency = round(time.perf_counter() - start, 3)
+            text = (response.text or "").strip()
+            return text, latency
+        except genai_errors.APIError as exc:
+            is_transient = getattr(exc, "code", None) in (429, 500, 502, 503, 504)
+            if not is_transient or attempt == max_retries:
+                raise
+            wait_sec = 3 * (2 ** attempt)
+            print(f"    [WARN] Transient API error ({exc.code}); retrying in {wait_sec}s...")
+            time.sleep(wait_sec)
 
 
 def strip_markdown_fences(text: str) -> str:
