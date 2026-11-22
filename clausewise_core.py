@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import time
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -31,15 +32,54 @@ def list_test_cases() -> list[Path]:
     return sorted(TEST_CASES_DIR.glob("*.txt"))
 
 
-def get_genai_client(api_key: str | None = None) -> genai.Client:
-    """Create a Google GenAI client using the provided key or GEMINI_API_KEY env var."""
+def resolve_api_key(api_key: str | None = None) -> str:
+    """Resolve GEMINI_API_KEY from explicit arg, environment, or Streamlit secrets."""
     key = (api_key or os.getenv("GEMINI_API_KEY", "")).strip()
-    if not key or key == "your_key_here":
+    if key and key != "your_key_here":
+        return key
+
+    try:
+        import streamlit as st
+
+        secret_key = str(st.secrets.get("GEMINI_API_KEY", "")).strip()
+        if secret_key and secret_key != "your_key_here":
+            return secret_key
+    except Exception:
+        pass
+
+    return ""
+
+
+def has_configured_api_key() -> bool:
+    """Return True if a non-placeholder GEMINI_API_KEY is available."""
+    return bool(resolve_api_key())
+
+
+@lru_cache(maxsize=4)
+def _cached_client(api_key: str) -> genai.Client:
+    """Cache and reuse a single genai.Client instance per API key."""
+    return genai.Client(api_key=api_key)
+
+
+def get_genai_client(api_key: str | None = None) -> genai.Client:
+    """Return a reused Google GenAI client using env or Streamlit secrets."""
+    key = resolve_api_key(api_key)
+    if not key:
         raise ValueError(
             "GEMINI_API_KEY is missing or still set to placeholder. "
-            "Set a valid key in your .env file."
+            "Set a valid key in .env or Streamlit Cloud secrets."
         )
-    return genai.Client(api_key=key)
+    return _cached_client(key)
+
+
+def _build_thinking_config(use_budget_fallback: bool = False) -> types.ThinkingConfig:
+    """Build minimal-latency ThinkingConfig with fallback to thinking_budget=0."""
+    if not use_budget_fallback:
+        try:
+            return types.ThinkingConfig(thinking_level="minimal")
+        except (TypeError, ValueError):
+            pass
+    return types.ThinkingConfig(thinking_budget=0)
 
 
 def call_gemini(
@@ -47,14 +87,21 @@ def call_gemini(
     prompt_text: str,
     json_mode: bool = False,
     temperature: float = 0.1,
+    max_output_tokens: int = 1024,
     max_retries: int = 4,
 ) -> tuple[str, float]:
-    """Call Gemini model with transient-error backoff and return (response_text, latency_seconds)."""
-    config_kwargs: dict[str, Any] = {"temperature": temperature}
-    if json_mode:
-        config_kwargs["response_mime_type"] = "application/json"
+    """Call Gemini model with minimal thinking latency and transient-error backoff."""
+    use_budget_fallback = False
 
     for attempt in range(max_retries + 1):
+        config_kwargs: dict[str, Any] = {
+            "temperature": temperature,
+            "max_output_tokens": max_output_tokens,
+            "thinking_config": _build_thinking_config(use_budget_fallback),
+        }
+        if json_mode:
+            config_kwargs["response_mime_type"] = "application/json"
+
         start = time.perf_counter()
         try:
             response = client.models.generate_content(
@@ -66,12 +113,18 @@ def call_gemini(
             text = (response.text or "").strip()
             return text, latency
         except genai_errors.APIError as exc:
-            is_transient = getattr(exc, "code", None) in (429, 500, 502, 503, 504)
+            code = getattr(exc, "code", None)
+            if code == 400 and not use_budget_fallback and "thinking" in str(exc).lower():
+                use_budget_fallback = True
+                continue
+            is_transient = code in (429, 500, 502, 503, 504)
             if not is_transient or attempt == max_retries:
                 raise
             wait_sec = 3 * (2 ** attempt)
-            print(f"    [WARN] Transient API error ({exc.code}); retrying in {wait_sec}s...")
+            print(f"    [WARN] Transient API error ({code}); retrying in {wait_sec}s...")
             time.sleep(wait_sec)
+
+    raise RuntimeError("Exceeded maximum retries calling Gemini API.")
 
 
 def strip_markdown_fences(text: str) -> str:

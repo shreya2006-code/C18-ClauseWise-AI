@@ -14,6 +14,7 @@ from clausewise_core import (
     call_gemini,
     extract_risk_items,
     get_genai_client,
+    has_configured_api_key,
     has_legal_disclaimer,
     list_test_cases,
     load_prompt,
@@ -124,11 +125,10 @@ def main() -> None:
         sample_names = [f.name for f in test_files] + ["Custom Input (Paste Below)"]
         selected_sample = st.selectbox("Load Sample T&C", options=sample_names, index=0)
 
-        env_key = os.getenv("GEMINI_API_KEY", "").strip()
-        if env_key and env_key != "your_key_here":
-            st.success("API Connected (.env)")
+        if has_configured_api_key():
+            st.success("API Connected")
         else:
-            st.error("GEMINI_API_KEY missing in .env")
+            st.error("GEMINI_API_KEY missing in .env / secrets")
 
         st.caption(f"Model: `{MODEL_NAME}`")
 
@@ -164,7 +164,12 @@ def main() -> None:
         if not tc_text.strip():
             st.error("Please provide Terms & Conditions text to analyze.")
         else:
-            with st.spinner(f"Running {selected_label} with `{MODEL_NAME}`..."):
+            spinner_msg = (
+                "Step 1/2: Extracting verbatim clauses... -> Step 2/2: Translating to plain English..."
+                if prompt_key == "v3_chained"
+                else f"Running {selected_label} with `{MODEL_NAME}`..."
+            )
+            with st.spinner(spinner_msg):
                 try:
                     st.session_state["last_result"] = run_analysis(prompt_key, tc_text)
                     st.session_state["last_source"] = tc_text
