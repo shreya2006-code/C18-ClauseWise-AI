@@ -1,0 +1,512 @@
+test_case,prompt_version,model,latency_sec,word_count,valid_json,verbatim_quote_verified,disclaimer_present,source_excerpt,step1_output,full_output
+01_social_media_app.txt,v1_baseline,gemini-3.5-flash-lite,11.582,435,False,False,False,"SNAPSPHERE SOCIAL NETWORK — TERMS OF SERVICE Effective Date: October 1, 2026  Welcome to SnapSphere (""Platform"", ""we"", ""us"", or ""our""). By creating an account or accessing our mobile or web application, you (""User"" or ""you"") agree to be bound by thes...",,"Here is a summary of the SnapSphere Terms of Service, followed by the potential risks to the user.
+
+---
+
+### **Document Summary**
+
+*   **Eligibility & Accounts:** Users must be at least 13 years old and are solely responsible for maintaining the security of their accounts.
+*   **User Content:** Users keep nominal ownership of what they post, but grant SnapSphere a permanent, global, royalty-free license to use, modify, distribute, and commercially exploit their content in any media without compensation or notice. This license can persist even after account deletion if other users have shared the content.
+*   **Data Collection & Advertising:** The platform collects extensive personal data, including precise geolocation, contact lists, browsing history, device identifiers, and biometric facial geometry. This data (along with behavioral analytics) may be sold or shared with third-party data brokers and advertisers for targeted marketing. Opting out of ads does not stop data collection.
+*   **Termination:** SnapSphere can suspend or terminate accounts and delete all stored content at any time, for any reason, without notice, and users lose the right to recover their data.
+*   **Dispute Resolution:** Users waive their right to a jury trial and must resolve all legal disputes through binding individual arbitration, completely barring class-action lawsuits.
+*   **Governing Law:** The terms are governed by the laws of the State of Delaware.
+
+---
+
+### **Potential Risks to the User**
+
+1.  **Loss of Content Control and Privacy:** 
+    *   Because you grant a perpetual, irrevocable, and sub-licensable license, SnapSphere (and its partners) can use your photos, videos, and text for commercial campaigns forever without paying you.
+    *   Even if you delete your account, content that others have re-posted or shared will remain under SnapSphere's license.
+2.  **Severe Privacy and Surveillance Risks:** 
+    *   The collection of **biometric facial geometry** and **precise geolocation** poses significant privacy and digital identity risks if the platform suffers a data breach. 
+    *   The sharing and selling of your personal data, contact lists, and browsing history to data brokers means your information could end up in third-party hands beyond your control.
+3.  **Risk of Sudden Data Loss:** 
+    *   SnapSphere can terminate your account and delete all of your uploaded media at any moment without warning. You have no contractual right to retrieve your photos or videos once terminated.
+4.  **Waiver of Legal Rights:** 
+    *   By agreeing to **mandatory binding arbitration and a class-action waiver**, you give up your right to sue the company in a court of law before a judge or jury. If SnapSphere harms users on a mass scale, you cannot join a class-action lawsuit and must fight them individually, which is often costly and difficult."
+01_social_media_app.txt,v2_structured_risk,gemini-3.5-flash-lite,5.447,410,True,True,True,"SNAPSPHERE SOCIAL NETWORK — TERMS OF SERVICE Effective Date: October 1, 2026  Welcome to SnapSphere (""Platform"", ""we"", ""us"", or ""our""). By creating an account or accessing our mobile or web application, you (""User"" or ""you"") agree to be bound by thes...",,"{
+  ""tldr_summary"": ""By using SnapSphere, you grant them a permanent and broad commercial license to use your content without pay, allow them to collect and sell your sensitive personal data to third parties, and agree to settle all disputes through binding arbitration instead of court."",
+  ""risks"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""SnapSphere may sell, license, or share your personal profile data, behavioral analytics, and inferred interests with third-party data brokers, advertisers, and marketing partners to deliver targeted advertising across external networks."",
+      ""plain_english_explanation"": ""The company collects very sensitive information, including your precise location, contact lists, and facial geometry, and is allowed to sell or share this data with outside advertisers and data brokers.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_explanation"": ""The terms do not mention any subscription fees, auto-renewals, or payment requirements.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""Any dispute, claim, or controversy arising out of or relating to these Terms or your use of SnapSphere shall be resolved exclusively through final and binding individual arbitration administered by the National Arbitration Forum, rather than in court."",
+      ""plain_english_explanation"": ""You give up your right to sue the company in a courtroom or participate in a class-action lawsuit, forcing you to use a private arbitrator instead.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""by uploading or sharing User Content, you grant SnapSphere and its affiliates a worldwide, non-exclusive, royalty-free, transferable, sub-licensable, perpetual, and irrevocable license to host, store, use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and publicly display your User Content in any media format, including for commercial promotional campaigns, without compensation or prior notice to you."",
+      ""plain_english_explanation"": ""While you technically keep ownership of your posts and photos, you give the company a free, permanent, and worldwide right to use, modify, and make money off your content however they want without paying you.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""SnapSphere reserves the right to suspend, restrict, or permanently terminate your account and delete all stored User Content at any time, in our sole discretion, with or without cause and without prior notice or liability."",
+      ""plain_english_explanation"": ""The company can shut down your account and delete all your content at any time for any reason, and you will lose access to your stored media permanently.""
+    }
+  ],
+  ""disclaimer"": ""This analysis provides plain-language information for educational purposes only and is NOT legal advice. Consult a qualified attorney for legal guidance.""
+}"
+01_social_media_app.txt,v3_chained,gemini-3.5-flash-lite,8.699,494,True,True,True,"SNAPSPHERE SOCIAL NETWORK — TERMS OF SERVICE Effective Date: October 1, 2026  Welcome to SnapSphere (""Platform"", ""we"", ""us"", or ""our""). By creating an account or accessing our mobile or web application, you (""User"" or ""you"") agree to be bound by thes...","{""step1_latency_sec"": 2.093, ""step1_json"": ""{\n  \""document_tone\"": \""Restrictive\"",\n  \""extracted_clauses\"": [\n    {\n      \""category\"": \""Data Privacy\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""SnapSphere may sell, license, or share your personal profile data, behavioral analytics, and inferred interests with third-party data brokers, advertisers, and marketing partners to deliver targeted advertising across external networks.\""\n    },\n    {\n      \""category\"": \""Hidden Fees/Auto-Renewal\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Forced Arbitration\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""Any dispute, claim, or controversy arising out of or relating to these Terms or your use of SnapSphere shall be resolved exclusively through final and binding individual arbitration administered by the National Arbitration Forum, rather than in court.\""\n    },\n    {\n      \""category\"": \""Content Ownership\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""However, by uploading or sharing User Content, you grant SnapSphere and its affiliates a worldwide, non-exclusive, royalty-free, transferable, sub-licensable, perpetual, and irrevocable license to host, store, use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and publicly display your User Content in any media format, including for commercial promotional campaigns, without compensation or prior notice to you.\""\n    },\n    {\n      \""category\"": \""Account Termination\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""SnapSphere reserves the right to suspend, restrict, or permanently terminate your account and delete all stored User Content at any time, in our sole discretion, with or without cause and without prior notice or liability.\""\n    }\n  ]\n}""}","{
+  ""tldr_summary"": ""This agreement contains several high-risk clauses that give the company broad control over your data, content, and account. You will also lose your right to sue them in court if a dispute arises. Review these terms carefully before agreeing to use the service."",
+  ""risk_table"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""SnapSphere may sell, license, or share your personal profile data, behavioral analytics, and inferred interests with third-party data brokers, advertisers, and marketing partners to deliver targeted advertising across external networks."",
+      ""plain_english_summary"": ""The company is allowed to sell or share your personal information and browsing habits with outside advertisers and companies to show you targeted ads."",
+      ""actionable_tip"": ""Check your privacy settings to see if you can opt out of data sharing or targeted advertising.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No concerning hidden fee or auto-renewal clause was found in the document."",
+      ""actionable_tip"": ""Keep an eye on your bank statements just in case, even though no automatic charges or hidden fees were found.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""Any dispute, claim, or controversy arising out of or relating to these Terms or your use of SnapSphere shall be resolved exclusively through final and binding individual arbitration administered by the National Arbitration Forum, rather than in court."",
+      ""plain_english_summary"": ""If you have a serious disagreement or legal problem with the company, you cannot take them to court or join a class-action lawsuit. You must use a private arbitrator instead."",
+      ""actionable_tip"": ""Be aware that you are giving up your right to a trial by jury if a major dispute happens.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""However, by uploading or sharing User Content, you grant SnapSphere and its affiliates a worldwide, non-exclusive, royalty-free, transferable, sub-licensable, perpetual, and irrevocable license to host, store, use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and publicly display your User Content in any media format, including for commercial promotional campaigns, without compensation or prior notice to you."",
+      ""plain_english_summary"": ""Even though you own what you post, you give the company permanent permission to use, change, and show your photos, videos, and text for commercial ads without paying you."",
+      ""actionable_tip"": ""Avoid uploading sensitive or personal content that you do not want used in public company advertisements.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""SnapSphere reserves the right to suspend, restrict, or permanently terminate your account and delete all stored User Content at any time, in our sole discretion, with or without cause and without prior notice or liability."",
+      ""plain_english_summary"": ""The company can shut down your account and delete all your saved content at any time for any reason without warning you beforehand."",
+      ""actionable_tip"": ""Regularly backup or download copies of any important photos, videos, or content you post to the platform.""
+    }
+  ],
+  ""disclaimer"": ""Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice. Please consult a qualified attorney for legal advice.""
+}"
+02_subscription_streaming.txt,v1_baseline,gemini-3.5-flash-lite,6.616,518,False,False,False,"STREAMVAULT ENTERTAINMENT — SUBSCRIPTION TERMS OF USE Effective Date: September 15, 2026  Thank you for choosing StreamVault (""Service"", ""we"", ""us""). These Terms govern your paid and trial access to our video and audio streaming platform.  1. FREE TR...",,"Here is a summary of the StreamVault Entertainment Subscription Terms of Use, followed by an analysis of the potential risks to the user.
+
+### **Document Summary**
+* **Billing & Auto-Renewal:** Introductory 7-day trials automatically convert into expensive, paid annual plans unless canceled at least 48 hours in advance. Renewals happen annually without notice.
+* **Pricing & Refunds:** StreamVault can increase prices at any time without your consent. All payments are strictly non-refundable, even if you cancel immediately or lose access to content.
+* **Content:** The media library can change or shrink at any time without notice. Your viewing rights are limited and revocable.
+* **Content Rights:** Anything you post (reviews, comments, playlists) can be used by StreamVault forever for free in their marketing.
+* **Privacy:** Your watch history and device data are tracked and shared with third-party studio partners.
+* **Account Control:** StreamVault can instantly ban or suspend your account without a refund if they suspect rule-breaking (like account sharing or using a VPN).
+* **Disputes:** You only have 15 days to contest a charge, and all legal disputes must be handled in New York County.
+
+---
+
+### **Potential Risks to the User**
+
+1. **Financial Risk (Hidden/Unexpected Charges):** 
+   * **The Trap:** If you sign up for a 7-day trial and forget to cancel at least **48 hours** before it ends, you will be hit with a full, non-refundable annual charge without warning. 
+   * **Automatic Price Hikes:** StreamVault can raise your annual subscription fee at any time, and you will automatically be billed the higher amount on your next cycle without receiving a reminder email.
+   * **Zero Refunds:** If you cancel halfway through the year or are unhappy with the service, you will lose your money entirely; partial refunds are not permitted.
+
+2. **Administrative & Cancellation Barriers:**
+   * **Inconvenient Cancellation Rules:** You cannot cancel your trial or subscription via the mobile app or email; it must be done through the desktop billing portal, which creates friction and risks missing the 48-hour cancellation window.
+   * **Extremely Short Dispute Window:** You have only **15 days** to dispute a billing error in writing, or you permanently lose the legal right to contest the charge.
+
+3. **Loss of Access and Arbitrary Termination:**
+   * **Account Bans Without Recourse:** StreamVault’s automated systems can lock you out of your account permanently—with zero refund—if they merely *suspect* account sharing or the use of a VPN. 
+   * **Content Disappearance:** You are paying for an annual plan, but the company can remove movies or shows at any time without offering compensation.
+
+4. **Privacy and Data Risks:**
+   * **Surveillance:** Your precise viewing habits (what you watch, when you pause, how you rewind) are tracked and shared with external studio partners, posing a privacy risk regarding your personal media consumption patterns.
+
+5. **Legal Vulnerability:**
+   * **Unfavorable Legal Venue:** If you have a serious dispute with the company, you must travel to or hire legal representation in **New York County** to fight it.
+   * **Loss of Intellectual Property:** Any creative input you provide (such as custom playlists or comments) becomes the permanent property of StreamVault to use in advertisements without paying you."
+02_subscription_streaming.txt,v2_structured_risk,gemini-3.5-flash-lite,1.725,353,True,True,True,"STREAMVAULT ENTERTAINMENT — SUBSCRIPTION TERMS OF USE Effective Date: September 15, 2026  Thank you for choosing StreamVault (""Service"", ""we"", ""us""). These Terms govern your paid and trial access to our video and audio streaming platform.  1. FREE TR...",,"{
+  ""tldr_summary"": ""By using StreamVault, you agree to an automatic annual renewal after your free trial unless cancelled 48 hours prior through their desktop portal. They can change prices, terminate your account, and remove content at any time without refunds."",
+  ""risks"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""Medium"",
+      ""exact_quote"": ""We log your watch history, pause/rewind behavior, and connected smart TV device identifiers to personalize recommendations and share aggregated audience metrics with studio partners."",
+      ""plain_english_explanation"": ""The company tracks your viewing habits and device information, and shares summary data with external studio partners.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""Unless you cancel at least 48 hours before the trial ends via our desktop billing portal (cancellations are not accepted via mobile app or email), your subscription will automatically convert into a paid annual plan and charge your payment method on file for the full annual fee."",
+      ""plain_english_explanation"": ""Your free trial will automatically turn into a paid yearly subscription unless you cancel early using their specific desktop portal method.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_explanation"": ""The text does not require mandatory arbitration, though it does mandate that lawsuits take place in a specific court in New York County.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""Low"",
+      ""exact_quote"": ""If you submit ratings, comments, or playlist descriptions, you grant StreamVault a perpetual, royalty-free right to display and use those submissions across our platform and marketing materials."",
+      ""plain_english_explanation"": ""Anything you post, like reviews or comments, can be used by the company forever for free in their marketing and on their platform.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""We may immediately suspend or terminate your subscription without refund if we suspect account sharing outside your primary household, VPN usage, or any violation of these Terms, as determined solely by our automated monitoring systems."",
+      ""plain_english_explanation"": ""Automated systems can shut down your account without a refund if they suspect rule violations like using a VPN or sharing your password.""
+    }
+  ],
+  ""disclaimer"": ""This analysis provides plain-language information for educational purposes only and is NOT legal advice. Consult a qualified attorney for legal guidance.""
+}"
+02_subscription_streaming.txt,v3_chained,gemini-3.5-flash-lite,4.269,522,True,True,True,"STREAMVAULT ENTERTAINMENT — SUBSCRIPTION TERMS OF USE Effective Date: September 15, 2026  Thank you for choosing StreamVault (""Service"", ""we"", ""us""). These Terms govern your paid and trial access to our video and audio streaming platform.  1. FREE TR...","{""step1_latency_sec"": 1.486, ""step1_json"": ""{\n  \""document_tone\"": \""Restrictive\"",\n  \""extracted_clauses\"": [\n    {\n      \""category\"": \""Data Privacy\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""Medium\"",\n      \""exact_quote\"": \""We log your watch history, pause/rewind behavior, and connected smart TV device identifiers to personalize recommendations and share aggregated audience metrics with studio partners.\""\n    },\n    {\n      \""category\"": \""Hidden Fees/Auto-Renewal\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""Unless you cancel at least 48 hours before the trial ends via our desktop billing portal (cancellations are not accepted via mobile app or email), your subscription will automatically convert into a paid annual plan and charge your payment method on file for the full annual fee.\""\n    },\n    {\n      \""category\"": \""Forced Arbitration\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Content Ownership\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""Medium\"",\n      \""exact_quote\"": \""If you submit ratings, comments, or playlist descriptions, you grant StreamVault a perpetual, royalty-free right to display and use those submissions across our platform and marketing materials.\""\n    },\n    {\n      \""category\"": \""Account Termination\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""We may immediately suspend or terminate your subscription without refund if we suspect account sharing outside your primary household, VPN usage, or any violation of these Terms, as determined solely by our automated monitoring systems.\""\n    }\n  ]\n}""}","{
+  ""tldr_summary"": ""This document has a restrictive tone with rules about how your data is collected, how automatic renewals work, and what happens to things you post. It also allows the company to cancel your account immediately under certain conditions."",
+  ""risk_table"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""Medium"",
+      ""exact_quote"": ""We log your watch history, pause/rewind behavior, and connected smart TV device identifiers to personalize recommendations and share aggregated audience metrics with studio partners."",
+      ""plain_english_summary"": ""The company tracks what you watch, how you use your remote, and your TV device details to give you recommendations and share group data with studio partners."",
+      ""actionable_tip"": ""Check your privacy settings in the app to see if you can opt out of personalized tracking or data sharing.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""Unless you cancel at least 48 hours before the trial ends via our desktop billing portal (cancellations are not accepted via mobile app or email), your subscription will automatically convert into a paid annual plan and charge your payment method on file for the full annual fee."",
+      ""plain_english_summary"": ""If you have a free trial, it will automatically turn into a paid yearly plan unless you cancel at least two days before it ends. You must cancel on a computer, because phone apps and emails will not work."",
+      ""actionable_tip"": ""Set a calendar reminder on your phone for three days before your trial ends so you have time to log in on a computer and cancel if you do not want to pay.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No concerning clause about forced arbitration was found in this category, meaning you do not have to give up your right to go to court over disputes based on this specific text."",
+      ""actionable_tip"": ""Enjoy the absence of this restriction, but always stay alert for updates to the terms.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""Medium"",
+      ""exact_quote"": ""If you submit ratings, comments, or playlist descriptions, you grant StreamVault a perpetual, royalty-free right to display and use those submissions across our platform and marketing materials."",
+      ""plain_english_summary"": ""Any comments, ratings, or playlist descriptions you write can be used by the company forever in their ads and on their platform without them paying you anything."",
+      ""actionable_tip"": ""Think carefully about what personal details or creative text you share in reviews and comments, knowing the company can use them publicly.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""We may immediately suspend or terminate your subscription without refund if we suspect account sharing outside your primary household, VPN usage, or any violation of these Terms, as determined solely by our automated monitoring systems."",
+      ""plain_english_summary"": ""The company's computer system can instantly shut down your account without giving you a refund if it thinks you are sharing your password, using a VPN, or breaking the rules."",
+      ""actionable_tip"": ""Avoid sharing your login details with people outside your home and turn off any VPNs while using the service to prevent getting locked out.""
+    }
+  ],
+  ""disclaimer"": ""Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice. Please consult a qualified attorney for legal advice.""
+}"
+03_food_delivery_app.txt,v1_baseline,gemini-3.5-flash-lite,2.387,404,False,False,False,"QUICKBITE EXPRESS — FOOD DELIVERY USER AGREEMENT Effective Date: August 20, 2026  By downloading or placing an order through the QuickBite Express mobile application (""QuickBite"", ""we"", ""our""), you agree to the following Terms and Conditions.  1. DYN...",,"Here is a summary of the QuickBite Express Terms and Conditions, followed by the potential risks to you as a user.
+
+### **Summary of Terms and Conditions**
+*   **Pricing and Fees:** Menu items may cost more than in-restaurant prices. The app adds dynamic, non-negotiable fees (maintenance, surge, and regulatory fees) at checkout that can change right up until payment. Coupons do not apply to these fees.
+*   **Platform Role & Liability:** QuickBite is only an intermediary between you, restaurants, and couriers. They do not guarantee delivery times, food quality, temperature, or accuracy, and limit refunds for defective orders to a maximum of $10.
+*   **Location Tracking:** The app tracks and collects your precise GPS location continuously in the background (even when the app is closed and you aren't ordering) and shares data with partners and analytics firms.
+*   **Account Deactivation:** QuickBite can ban your account without warning if automated systems flag too many refund requests or chargebacks, resulting in the immediate loss of any unused wallet credits or gift card balances.
+*   **Dispute Resolution:** You give up your right to sue in court or join a class-action lawsuit; all disputes must be handled through binding individual arbitration.
+
+---
+
+### **Potential Risks to the User**
+
+1.  **Financial Risk (Unexpected Costs):** Because prices and surge fees can change right up until final payment, you may end up paying significantly more than anticipated. 
+2.  **Financial Risk (Loss of Funds):** If your account is flagged and deactivated (even by an automated error), you forfeit any remaining promotional credits or gift card balances with no recourse.
+3.  **Financial Risk (Poor Reimbursement for Bad Orders):** If your food arrives cold, damaged, missing, or incorrect, QuickBite is not liable and limits your maximum refund to $10, regardless of the order's actual cost.
+4.  **Health and Safety Risks:** QuickBite disclaims liability for allergen handling and food safety, meaning you carry the full risk if a restaurant makes a dangerous mistake with your food.
+5.  **Privacy Risk:** Continuous background GPS tracking (even when the app is closed) compromises your privacy, and your location logs and dining preferences are shared with third-party analytics firms and restaurants.
+6.  **Legal Risk (Loss of Rights):** By agreeing to mandatory arbitration and waiving class-action rights, you give up your constitutional right to a trial by jury and your ability to collectively hold the company accountable through the court system if they wrong you or a group of users."
+03_food_delivery_app.txt,v2_structured_risk,gemini-3.5-flash-lite,6.584,373,True,False,True,"QUICKBITE EXPRESS — FOOD DELIVERY USER AGREEMENT Effective Date: August 20, 2026  By downloading or placing an order through the QuickBite Express mobile application (""QuickBite"", ""we"", ""our""), you agree to the following Terms and Conditions.  1. DYN...",,"{
+  ""tldr_summary"": ""By using QuickBite Express, you agree to dynamic service fees, continuous background location tracking, and strict limitations on refunds and liability. You also give up your right to sue the company in court, agreeing instead to individual arbitration."",
+  ""risks"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""you consent to QuickBite collecting your precise GPS location continuously in the background, even when the app is closed and no active order is in progress. We may share your order history, dining preferences, and location logs with restaurant partners and third-party analytics firms."",
+      ""plain_english_explanation"": ""The app tracks your exact location all the time, even when you aren't using it, and shares your personal habits and location data with outside companies.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""Medium"",
+      ""exact_quote"": ""QuickBite automatically applies variable 'Platform Maintenance Fees,' 'Peak Demand Surge Fees,' and 'Local Regulatory Recovery Charges' at checkout. These fees are calculated dynamically and may change after you add items to your cart up until final payment authorization."",
+      ""plain_english_explanation"": ""You may be charged extra variable fees at checkout that can change right up until you pay, and coupons won't cover them.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""All claims against QuickBite must be resolved through binding individual arbitration under the rules of the American Arbitration Association, and you waive any right to participate in class action lawsuits."",
+      ""plain_english_explanation"": ""You cannot take the company to court or join a class-action lawsuit if you have a dispute; you must use a private arbitrator.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_explanation"": ""The terms do not contain clauses regarding the ownership of user-generated content.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""QuickBite may deactivate your account at any time without prior warning if our automated fraud detection flags excessive refund requests or chargebacks. Upon deactivation, any unused QuickBite promotional credits or gift card balances in your in-app wallet are immediately forfeited without compensation."",
+      ""plain_english_explanation"": ""The company can shut down your account without warning, and you will lose any remaining credits or gift card balances you paid for.""
+    }
+  ],
+  ""disclaimer"": ""This analysis provides plain-language information for educational purposes only and is NOT legal advice. Consult a qualified attorney for legal guidance.""
+}"
+03_food_delivery_app.txt,v3_chained,gemini-3.5-flash-lite,11.493,464,True,True,True,"QUICKBITE EXPRESS — FOOD DELIVERY USER AGREEMENT Effective Date: August 20, 2026  By downloading or placing an order through the QuickBite Express mobile application (""QuickBite"", ""we"", ""our""), you agree to the following Terms and Conditions.  1. DYN...","{""step1_latency_sec"": 4.814, ""step1_json"": ""{\n  \""document_tone\"": \""Restrictive\"",\n  \""extracted_clauses\"": [\n    {\n      \""category\"": \""Data Privacy\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""you consent to QuickBite collecting your precise GPS location continuously in the background, even when the app is closed and no active order is in progress. We may share your order history, dining preferences, and location logs with restaurant partners and third-party analytics firms.\""\n    },\n    {\n      \""category\"": \""Hidden Fees/Auto-Renewal\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""Medium\"",\n      \""exact_quote\"": \""QuickBite automatically applies variable \\\""Platform Maintenance Fees,\\\"" \\\""Peak Demand Surge Fees,\\\"" and \\\""Local Regulatory Recovery Charges\\\"" at checkout. These fees are calculated dynamically and may change after you add items to your cart up until final payment authorization.\""\n    },\n    {\n      \""category\"": \""Forced Arbitration\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""All claims against QuickBite must be resolved through binding individual arbitration under the rules of the American Arbitration Association, and you waive any right to participate in class action lawsuits.\""\n    },\n    {\n      \""category\"": \""Content Ownership\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Account Termination\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""QuickBite may deactivate your account at any time without prior warning if our automated fraud detection flags excessive refund requests or chargebacks. Upon deactivation, any unused QuickBite promotional credits or gift card balances in your in-app wallet are immediately forfeited without compensation.\""\n    }\n  ]\n}""}","{
+  ""tldr_summary"": ""This document contains significant restrictions, including continuous background location tracking, variable fees, binding arbitration, and potential forfeiture of gift card balances if your account is closed. Review these terms carefully before agreeing to use the service."",
+  ""risk_table"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""you consent to QuickBite collecting your precise GPS location continuously in the background, even when the app is closed and no active order is in progress. We may share your order history, dining preferences, and location logs with restaurant partners and third-party analytics firms."",
+      ""plain_english_summary"": ""The app tracks your exact location all the time, even when you are not using it, and shares your data with outside companies."",
+      ""actionable_tip"": ""Go to your phone settings and change the app's location permission to \""While Using the App\"" or \""Never\"".""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""Medium"",
+      ""exact_quote"": ""QuickBite automatically applies variable \""Platform Maintenance Fees,\"" \""Peak Demand Surge Fees,\"" and \""Local Regulatory Recovery Charges\"" at checkout. These fees are calculated dynamically and may change after you add items to your cart up until final payment authorization."",
+      ""plain_english_summary"": ""Extra fees can be added to your bill automatically, and the total price can change right up until you pay."",
+      ""actionable_tip"": ""Double-check the final total on the payment screen right before you hit submit to make sure you agree with the extra fees.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""All claims against QuickBite must be resolved through binding individual arbitration under the rules of the American Arbitration Association, and you waive any right to participate in class action lawsuits."",
+      ""plain_english_summary"": ""You give up your right to sue the company in a regular court or join a group lawsuit if something goes wrong."",
+      ""actionable_tip"": ""Be aware that any disputes must be handled privately through a paid arbitrator instead of a public court.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No concerning clauses about content ownership were found in this document."",
+      ""actionable_tip"": ""You do not need to worry about losing the rights to your own content based on this category.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""QuickBite may deactivate your account at any time without prior warning if our automated fraud detection flags excessive refund requests or chargebacks. Upon deactivation, any unused QuickBite promotional credits or gift card balances in your in-app wallet are immediately forfeited without compensation."",
+      ""plain_english_summary"": ""The company can close your account without warning and keep any leftover gift card money or credits you have."",
+      ""actionable_tip"": ""Try not to keep a large cash balance sitting in your in-app wallet; spend your credits and gift card money quickly.""
+    }
+  ],
+  ""disclaimer"": ""Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice. Please consult a qualified attorney for legal advice.""
+}"
+04_ai_productivity_tool.txt,v1_baseline,gemini-3.5-flash-lite,2.485,391,False,False,False,"NOVAWRITE AI — PRODUCTIVITY & WRITING ASSISTANT TERMS OF SERVICE Effective Date: November 1, 2026  Welcome to NovaWrite AI (""NovaWrite"", ""Company"", ""we""). These Terms govern your use of our cloud-based AI writing, coding, and document summarization w...",,"Here is a summary of the NovaWrite AI Terms of Service, followed by the potential risks to the user.
+
+---
+
+### **Document Summary**
+NovaWrite AI is a cloud-based workspace for writing, coding, and summarization. The Terms of Service outline the following key conditions:
+* **Data Usage & Training:** Users retain copyright to their inputs, but grant NovaWrite a permanent, worldwide license to use all inputs and outputs to train and improve their AI models without an opt-out option.
+* **Data Retention & Review:** User data and chat logs are stored indefinitely and may be manually reviewed by employees, contractors, and third-party vendors. 
+* **Liability & Indemnification:** Users take full legal and financial responsibility for everything they input or publish, including copyright infringement claims caused by the AI, even if the content was generated autonomously.
+* **Billing & Credits:** Subscriptions auto-renew, and unused monthly token credits expire rather than rolling over.
+* **Termination:** NovaWrite can terminate accounts immediately without notice, and users may lose access to all saved work permanently without a chance to export it.
+
+---
+
+### **Potential Risks to the User**
+
+1. **Loss of Intellectual Property / Confidentiality (Section 1 & 2):** 
+   * **Risk:** Because NovaWrite uses all user inputs to train its public models and allows human contractors to review data indefinitely, uploading proprietary business code, trade secrets, medical data, or personal information could result in data leaks or confidential details being absorbed into the AI's training data. There is no way to opt out on standard or pro plans.
+
+2. **Severe Financial and Legal Liability (Section 3):** 
+   * **Risk:** AI models are known to occasionally hallucinate or inadvertently reproduce copyrighted material. Under this agreement, if the AI generates text that infringes on a third party's copyright—and you publish it—**you** are entirely responsible for defending NovaWrite in court and paying all resulting legal fees and damages.
+
+3. **Loss of Data and Work (Section 5):** 
+   * **Risk:** If automated filters flag your account (which can sometimes happen via false positives), your account can be terminated instantly without warning, resulting in the permanent loss of all your documents and workspaces with no option to download or recover them.
+
+4. **Financial Loss from Expiring Credits (Section 4):** 
+   * **Risk:** If you do not use your allocated monthly tokens within the billing cycle, you lose them completely, as they do not roll over."
+04_ai_productivity_tool.txt,v2_structured_risk,gemini-3.5-flash-lite,2.274,383,True,True,True,"NOVAWRITE AI — PRODUCTIVITY & WRITING ASSISTANT TERMS OF SERVICE Effective Date: November 1, 2026  Welcome to NovaWrite AI (""NovaWrite"", ""Company"", ""we""). These Terms govern your use of our cloud-based AI writing, coding, and document summarization w...",,"{
+  ""tldr_summary"": ""NovaWrite AI is a productivity workspace that allows you to use AI writing and coding tools. By using the service, you grant the company broad rights to use your inputs for AI training, and you agree to automatic subscription renewals and heavy personal indemnification for AI-generated outputs."",
+  ""risks"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""We retain your Inputs, Outputs, and conversation logs indefinitely for quality assurance, safety monitoring, and model development. Authorized employees, third-party contractors, and annotation vendors may read and review your submitted prompts and documents."",
+      ""plain_english_explanation"": ""The company keeps your data forever, and real human workers or contractors may read your personal or private documents and prompts.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""Medium"",
+      ""exact_quote"": ""Paid workspace plans automatically renew monthly or annually unless canceled prior to the renewal date. Unused monthly token credits do not roll over and expire at the end of each billing cycle."",
+      ""plain_english_explanation"": ""Your subscription will automatically keep charging you until you cancel it, and any leftover tokens you didn't use disappear at the end of the month.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_explanation"": ""The provided text does not contain a forced arbitration clause.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""you grant NovaWrite a worldwide, perpetual, royalty-free, irrevocable license to use, copy, store, process, and analyze your Inputs and AI-generated Outputs to train, fine-tune, evaluate, and improve our proprietary machine learning models and commercial AI products, without opt-out options on standard or pro plans."",
+      ""plain_english_explanation"": ""Even though you own your original text, you give the company permanent, free permission to use your work and AI outputs to train their AI models forever with no way to opt out.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""We may suspend or terminate your access immediately without notice if our automated filters detect prohibited content or unusual API usage. Upon termination, your saved workspaces and documents may be permanently erased without an export window."",
+      ""plain_english_explanation"": ""The company can shut down your account instantly without warning, and you could permanently lose all your saved documents and workspaces with no chance to download them.""
+    }
+  ],
+  ""disclaimer"": ""This analysis provides plain-language information for educational purposes only and is NOT legal advice. Consult a qualified attorney for legal guidance.""
+}"
+04_ai_productivity_tool.txt,v3_chained,gemini-3.5-flash-lite,4.02,437,True,True,True,"NOVAWRITE AI — PRODUCTIVITY & WRITING ASSISTANT TERMS OF SERVICE Effective Date: November 1, 2026  Welcome to NovaWrite AI (""NovaWrite"", ""Company"", ""we""). These Terms govern your use of our cloud-based AI writing, coding, and document summarization w...","{""step1_latency_sec"": 1.616, ""step1_json"": ""{\n  \""document_tone\"": \""Restrictive\"",\n  \""extracted_clauses\"": [\n    {\n      \""category\"": \""Data Privacy\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""Authorized employees, third-party contractors, and annotation vendors may read and review your submitted prompts and documents.\""\n    },\n    {\n      \""category\"": \""Hidden Fees/Auto-Renewal\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""Medium\"",\n      \""exact_quote\"": \""Paid workspace plans automatically renew monthly or annually unless canceled prior to the renewal date.\""\n    },\n    {\n      \""category\"": \""Forced Arbitration\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Content Ownership\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""However, you grant NovaWrite a worldwide, perpetual, royalty-free, irrevocable license to use, copy, store, process, and analyze your Inputs and AI-generated Outputs to train, fine-tune, evaluate, and improve our proprietary machine learning models and commercial AI products, without opt-out options on standard or pro plans.\""\n    },\n    {\n      \""category\"": \""Account Termination\"",\n      \""status\"": \""FOUND\"",\n      \""severity\"": \""High\"",\n      \""exact_quote\"": \""We may suspend or terminate your access immediately without notice if our automated filters detect prohibited content or unusual API usage. Upon termination, your saved workspaces and documents may be permanently erased without an export window.\""\n    }\n  ]\n}""}","{
+  ""tldr_summary"": ""This agreement has a restrictive tone with multiple high-risk terms. The company can share your private data with human reviewers, take permanent ownership of your content to train their AI models, and delete your account instantly without warning."",
+  ""risk_table"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""Authorized employees, third-party contractors, and annotation vendors may read and review your submitted prompts and documents."",
+      ""plain_english_summary"": ""Real humans, including outside workers and contractors, are allowed to read and look at the prompts and documents you type into the platform."",
+      ""actionable_tip"": ""Never type private personal details, passwords, or secret business data into the app.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""Medium"",
+      ""exact_quote"": ""Paid workspace plans automatically renew monthly or annually unless canceled prior to the renewal date."",
+      ""plain_english_summary"": ""Your paid subscription will keep charging your credit card automatically every month or year until you actively cancel it."",
+      ""actionable_tip"": ""Set a calendar reminder to cancel your plan before the renewal date if you do not want to keep paying.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No clause forcing you to give up your right to sue in court was found in this category."",
+      ""actionable_tip"": ""You can enjoy peace of mind here, but always keep an eye out if terms change later.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""However, you grant NovaWrite a worldwide, perpetual, royalty-free, irrevocable license to use, copy, store, process, and analyze your Inputs and AI-generated Outputs to train, fine-tune, evaluate, and improve our proprietary machine learning models and commercial AI products, without opt-out options on standard or pro plans."",
+      ""plain_english_summary"": ""When you use this service, you give them permanent permission to use your work and AI answers forever to train their own artificial intelligence products without paying you."",
+      ""actionable_tip"": ""Do not upload your original creative work, artwork, or confidential writing if you do not want the company using it to train their AI.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""High"",
+      ""exact_quote"": ""We may suspend or terminate your access immediately without notice if our automated filters detect prohibited content or unusual API usage. Upon termination, your saved workspaces and documents may be permanently erased without an export window."",
+      ""plain_english_summary"": ""The company can shut down your account instantly without telling you first, and you might lose all your saved documents forever with no way to download them."",
+      ""actionable_tip"": ""Back up and save all your important documents on your own computer or hard drive regularly.""
+    }
+  ],
+  ""disclaimer"": ""Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice. Please consult a qualified attorney for legal advice.""
+}"
+05_clean_privacy_first_app.txt,v1_baseline,gemini-3.5-flash-lite,5.259,390,False,False,False,"CLEARNOTE — PRIVACY-FIRST NOTES & JOURNALING TERMS OF SERVICE Effective Date: July 1, 2026  Welcome to ClearNote (""we"", ""our"", ""us""). We built ClearNote to be simple, transparent, and respectful of your privacy.  1. YOUR CONTENT BELONGS ENTIRELY TO Y...",,"Here is a summary of the ClearNote Terms of Service, along with an analysis of potential risks to the user.
+
+### **Summary of Terms and Conditions**
+
+*   **Ownership of Content:** Users retain 100% ownership of their data. Because notes are end-to-end encrypted on the user's device before syncing, ClearNote cannot read them, and they explicitly state they do not use user data to train AI models.
+*   **Privacy & Data Collection:** The company collects minimal data (email and encrypted sync metadata) and strictly prohibits selling or sharing personal information with advertisers or data brokers. Users can export or permanently delete their data at any time.
+*   **Subscriptions & Billing:** The app offers a free tier (ad-free) and an optional Pro subscription. ClearNote provides renewal reminders, easy cancellation, and a 30-day money-back guarantee on annual plans with no hidden fees.
+*   **Account Termination:** Accounts are only suspended for legal reasons or severe abuse (e.g., malware distribution). Users receive 14 days' notice and a chance to export data prior to any non-emergency suspension.
+*   **Dispute Resolution:** ClearNote encourages informal resolution, does not require forced arbitration, and allows users to pursue legal claims in their local courts or small claims court.
+
+---
+
+### **Potential Risks to the User**
+
+Overall, these Terms and Conditions are exceptionally user-friendly and privacy-focused, presenting very few risks compared to standard industry practices. However, users should still keep the following minor risks in mind:
+
+1.  **Risk of Permanent Data Loss (User Error):** Because ClearNote uses end-to-end encryption and **cannot read your notes**, the company cannot recover your data or reset your password if you lose your encryption key or account credentials. Users are entirely responsible for their own access security.
+2.  **Email Invalidation:** The company communicates important updates—such as subscription renewals (Section 3) and account suspension notices (Section 4)—via email. If a user changes their email address without updating it in the app, or if these notices go to a spam folder, they could miss a renewal reminder or a 14-day notice prior to account suspension.
+3.  **Third-Party Platform Dependence:** While the terms are fair, users are still reliant on ClearNote’s infrastructure for cloud syncing. If the service were to suddenly shut down, users would need to rely on their most recent local export to avoid disruption (though the ability to export in standard Markdown/JSON significantly mitigates this risk)."
+05_clean_privacy_first_app.txt,v2_structured_risk,gemini-3.5-flash-lite,2.222,427,True,True,True,"CLEARNOTE — PRIVACY-FIRST NOTES & JOURNALING TERMS OF SERVICE Effective Date: July 1, 2026  Welcome to ClearNote (""we"", ""our"", ""us""). We built ClearNote to be simple, transparent, and respectful of your privacy.  1. YOUR CONTENT BELONGS ENTIRELY TO Y...",,"{
+  ""tldr_summary"": ""ClearNote is a privacy-first note-taking app that ensures you keep 100% ownership of your content without your data being sold or used to train AI. It features transparent pricing with easy cancellations, no forced arbitration, and fair account termination policies."",
+  ""risks"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""Low"",
+      ""exact_quote"": ""We collect only the minimum information required to operate your account (your email address and encrypted sync metadata). We never sell, rent, or share your personal information with advertisers, data brokers, or third-party marketing networks."",
+      ""plain_english_explanation"": ""The company collects only your email and encrypted sync data, and they strictly promise never to sell or share your personal information.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""Low"",
+      ""exact_quote"": ""Optional Pro subscriptions are billed monthly or annually with clear email reminders sent 7 days before any renewal. You may cancel anytime in two clicks from your account settings, and we offer a full, no-questions-asked refund within 30 days of any annual charge. There are no hidden fees or surge charges."",
+      ""plain_english_explanation"": ""Subscriptions automatically renew, but you are given clear reminders 7 days in advance, can cancel easily, and there are no hidden fees.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""We do not require forced arbitration, and you retain full rights to bring any unresolved legal claim in small claims court or a court of competent jurisdiction in your local area."",
+      ""plain_english_explanation"": ""You are not forced to give up your right to go to court; you can freely pursue legal claims in your local court or small claims court.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""You retain 100% ownership and all intellectual property rights to every note, checklist, and attachment you create in ClearNote. We claim no license to use, publish, sell, or train AI models on your content."",
+      ""plain_english_explanation"": ""You keep complete ownership of all your notes and attachments, and ClearNote cannot use them for AI training or anything else.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""Low"",
+      ""exact_quote"": ""We will only suspend an account if required by law or in cases of severe abuse such as distributing malware. Before any non-emergency suspension, we will give you at least 14 days' written notice by email and allow you to export your data."",
+      ""plain_english_explanation"": ""Your account will only be closed for severe violations or legal reasons, and you will receive at least 14 days' notice with a chance to download your data.""
+    }
+  ],
+  ""disclaimer"": ""This analysis provides plain-language information for educational purposes only and is NOT legal advice. Consult a qualified attorney for legal guidance.""
+}"
+05_clean_privacy_first_app.txt,v3_chained,gemini-3.5-flash-lite,5.188,259,True,True,True,"CLEARNOTE — PRIVACY-FIRST NOTES & JOURNALING TERMS OF SERVICE Effective Date: July 1, 2026  Welcome to ClearNote (""we"", ""our"", ""us""). We built ClearNote to be simple, transparent, and respectful of your privacy.  1. YOUR CONTENT BELONGS ENTIRELY TO Y...","{""step1_latency_sec"": 3.126, ""step1_json"": ""{\n  \""document_tone\"": \""Consumer-Friendly\"",\n  \""extracted_clauses\"": [\n    {\n      \""category\"": \""Data Privacy\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Hidden Fees/Auto-Renewal\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Forced Arbitration\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Content Ownership\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    },\n    {\n      \""category\"": \""Account Termination\"",\n      \""status\"": \""NOT FOUND\"",\n      \""severity\"": \""None\"",\n      \""exact_quote\"": \""NOT FOUND\""\n    }\n  ]\n}""}","{
+  ""tldr_summary"": ""This document appears consumer-friendly because no concerning legal clauses were found in any of the checked categories. You do not need to worry about hidden fees, forced arbitration, or unexpected account closures based on these areas."",
+  ""risk_table"": [
+    {
+      ""category"": ""Data Privacy"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No concerning data privacy rules were found in this section."",
+      ""actionable_tip"": ""Continue to practice good habits by reviewing your privacy settings regularly.""
+    },
+    {
+      ""category"": ""Hidden Fees/Auto-Renewal"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No sneaky charges or automatic renewal traps were found here."",
+      ""actionable_tip"": ""Keep an eye on your bank statements just to be safe, even without concerning clauses.""
+    },
+    {
+      ""category"": ""Forced Arbitration"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No rule was found that forces you to give up your right to sue in court."",
+      ""actionable_tip"": ""You retain your standard legal options if a serious dispute ever happens.""
+    },
+    {
+      ""category"": ""Content Ownership"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No clause was found taking away your rights to the stuff you create or share."",
+      ""actionable_tip"": ""Feel free to use the service knowing your content rights are not explicitly signed away here.""
+    },
+    {
+      ""category"": ""Account Termination"",
+      ""severity"": ""None"",
+      ""exact_quote"": ""NOT FOUND"",
+      ""plain_english_summary"": ""No clause was found allowing the company to abruptly shut down your account for no reason."",
+      ""actionable_tip"": ""Follow the standard community guidelines to keep your account safe and active.""
+    }
+  ],
+  ""disclaimer"": ""Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice. Please consult a qualified attorney for legal advice.""
+}"
