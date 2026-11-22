@@ -15,6 +15,7 @@ from google.genai import errors as genai_errors
 from google.genai import types
 
 MODEL_NAME = "gemini-3.5-flash-lite"
+MAX_INPUT_CHARS = 14000
 BASE_DIR = Path(__file__).resolve().parent
 PROMPTS_DIR = BASE_DIR / "prompts"
 TEST_CASES_DIR = BASE_DIR / "test_cases"
@@ -73,14 +74,16 @@ def get_genai_client(api_key: str | None = None) -> genai.Client:
     return _cached_client(key)
 
 
-def _build_thinking_config(use_budget_fallback: bool = False) -> types.ThinkingConfig:
-    """Build minimal-latency ThinkingConfig with fallback to thinking_budget=0."""
-    if not use_budget_fallback:
-        try:
-            return types.ThinkingConfig(thinking_level="minimal")
-        except (TypeError, ValueError):
-            pass
-    return types.ThinkingConfig(thinking_budget=0)
+def truncate_tc_for_llm(tc_text: str, max_chars: int = MAX_INPUT_CHARS) -> str:
+    """Trim trailing boilerplate above max_chars to keep latency low on long PDFs."""
+    if len(tc_text) <= max_chars:
+        return tc_text
+    return tc_text[:max_chars]
+
+
+def _build_thinking_config() -> types.ThinkingConfig:
+    """Build minimal-latency ThinkingConfig using ThinkingLevel.MINIMAL."""
+    return types.ThinkingConfig(thinking_level=types.ThinkingLevel.MINIMAL)
 
 
 def call_gemini(
@@ -92,17 +95,15 @@ def call_gemini(
     max_retries: int = 4,
 ) -> tuple[str, float]:
     """Call Gemini model with minimal thinking latency and transient-error backoff."""
-    use_budget_fallback = False
+    config_kwargs: dict[str, Any] = {
+        "temperature": temperature,
+        "max_output_tokens": max_output_tokens,
+        "thinking_config": _build_thinking_config(),
+    }
+    if json_mode:
+        config_kwargs["response_mime_type"] = "application/json"
 
     for attempt in range(max_retries + 1):
-        config_kwargs: dict[str, Any] = {
-            "temperature": temperature,
-            "max_output_tokens": max_output_tokens,
-            "thinking_config": _build_thinking_config(use_budget_fallback),
-        }
-        if json_mode:
-            config_kwargs["response_mime_type"] = "application/json"
-
         start = time.perf_counter()
         try:
             response = client.models.generate_content(
@@ -115,9 +116,6 @@ def call_gemini(
             return text, latency
         except genai_errors.APIError as exc:
             code = getattr(exc, "code", None)
-            if code == 400 and not use_budget_fallback and "thinking" in str(exc).lower():
-                use_budget_fallback = True
-                continue
             is_transient = code in (429, 500, 502, 503, 504)
             if not is_transient or attempt == max_retries:
                 raise

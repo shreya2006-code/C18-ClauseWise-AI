@@ -20,6 +20,7 @@ from clausewise_core import (
     list_test_cases,
     load_prompt,
     parse_json_safe,
+    truncate_tc_for_llm,
     verify_quotes_against_source,
 )
 
@@ -79,9 +80,10 @@ def extract_uploaded_text(uploaded_file) -> str:
 def run_analysis(prompt_key: str, tc_text: str) -> dict:
     """Execute the selected prompt version against Gemini (cached per prompt + input)."""
     client = get_genai_client()
+    llm_input = truncate_tc_for_llm(tc_text)
 
     if prompt_key == "v1_baseline":
-        prompt = load_prompt("v1_baseline.txt").format(tc_text=tc_text)
+        prompt = load_prompt("v1_baseline.txt").format(tc_text=llm_input)
         raw_out, latency = call_gemini(client, prompt, json_mode=False, temperature=0.3)
         return {
             "prompt_key": prompt_key,
@@ -91,8 +93,10 @@ def run_analysis(prompt_key: str, tc_text: str) -> dict:
         }
 
     if prompt_key == "v2_structured_risk":
-        prompt = load_prompt("v2_structured_risk.txt").format(tc_text=tc_text)
-        raw_out, latency = call_gemini(client, prompt, json_mode=True, temperature=0.1)
+        prompt = load_prompt("v2_structured_risk.txt").format(tc_text=llm_input)
+        raw_out, latency = call_gemini(
+            client, prompt, json_mode=True, temperature=0.1, max_output_tokens=700
+        )
         return {
             "prompt_key": prompt_key,
             "raw_output": raw_out,
@@ -101,11 +105,15 @@ def run_analysis(prompt_key: str, tc_text: str) -> dict:
         }
 
     # v3_chained: Step 1 (Extractor) -> Step 2 (Simplifier)
-    s1_prompt = load_prompt("v3_step1_extractor.txt").format(tc_text=tc_text)
-    s1_out, s1_lat = call_gemini(client, s1_prompt, json_mode=True, temperature=0.1)
+    s1_prompt = load_prompt("v3_step1_extractor.txt").format(tc_text=llm_input)
+    s1_out, s1_lat = call_gemini(
+        client, s1_prompt, json_mode=True, temperature=0.1, max_output_tokens=750
+    )
 
     s2_prompt = load_prompt("v3_step2_simplifier.txt").format(step1_json=s1_out)
-    s2_out, s2_lat = call_gemini(client, s2_prompt, json_mode=True, temperature=0.1)
+    s2_out, s2_lat = call_gemini(
+        client, s2_prompt, json_mode=True, temperature=0.1, max_output_tokens=1100
+    )
 
     return {
         "prompt_key": prompt_key,

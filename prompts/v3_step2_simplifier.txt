@@ -2,18 +2,19 @@ Translate ONLY the Step 1 JSON below into an 8th-grade reading level summary wit
 
 Rules:
 - Preserve every "exact_quote" identically (including "NOT FOUND").
+- Keep each "plain_english_summary" and "actionable_tip" crisp and concise (1-2 sentences, max 25 words each).
 - For "NOT FOUND", state no concerning clause was found and give a brief tip.
 - Include the mandatory disclaimer stating this is plain-language information and NOT legal advice.
 - Return ONLY valid JSON matching this schema:
 {{
-  "tldr_summary": "2-3 sentence 8th-grade summary based strictly on Step 1.",
+  "tldr_summary": "2 crisp 8th-grade sentences based strictly on Step 1.",
   "risk_table": [
     {{
       "category": "Category name",
       "severity": "High | Medium | Low | None",
       "exact_quote": "Exact quote from Step 1 or NOT FOUND",
-      "plain_english_summary": "Simple 8th-grade explanation.",
-      "actionable_tip": "Practical user tip."
+      "plain_english_summary": "1-2 crisp sentences, max 25 words.",
+      "actionable_tip": "1 crisp sentence, max 20 words."
     }}
   ],
   "disclaimer": "Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice."

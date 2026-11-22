@@ -6,7 +6,7 @@ Extract verbatim risky clauses from the Terms & Conditions for these 5 categorie
 5. Account Termination
 
 Rules:
-- Copy "exact_quote" character-for-character from the text. Never paraphrase.
+- Copy "exact_quote" character-for-character from the text (single most relevant sentence, max 35 words). Never paraphrase.
 - If no risky clause exists for a category, set "status": "NOT FOUND", "severity": "None", "exact_quote": "NOT FOUND".
 - Severity: "High", "Medium", "Low", or "None".
 - Return ONLY valid JSON matching this schema:
