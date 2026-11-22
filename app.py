@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import os
+
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
+from pypdf import PdfReader
 
 from clausewise_core import (
     MODEL_NAME,
@@ -45,24 +47,26 @@ def render_disclaimer_banner() -> None:
 
 
 def render_footer() -> None:
-    """Display Bennett University team attribution in the app footer."""
+    """Display clean project title in the app footer."""
     st.divider()
-    st.markdown(
-        """
-**ClauseWise AI (Problem C18: Terms and Conditions in Plain Language)** — Bennett University B.Tech 5th Semester  
-**Team Members:**
-- **Shreya Ghosh** (`S24CSEU0519`) — Prompt Architect & Chaining Design
-- **Saneha Singh** (`S24CSEU0462`) — Dataset Curation & Evaluation Rubric
-- **Shreyash Mishra** (`S24CSEU0523`) — Streamlit UI & API Integration
-- **Prithivi Alamyan** (`S24CSEU1155`) — Error Analysis & Hallucination Testing
-- **Shree Bhattacharya** (`S24CSEU0516`) — Responsible AI Guardrails & Documentation
-"""
-    )
+    st.caption("ClauseWise AI — Terms & Conditions Plain-Language Analyzer (Problem C18)")
 
 
-def run_analysis(prompt_key: str, tc_text: str, api_key: str) -> dict:
-    """Execute the selected prompt version against Gemini and return structured results."""
-    client = get_genai_client(api_key=api_key)
+def extract_uploaded_text(uploaded_file) -> str:
+    """Extract plain text from an uploaded PDF or TXT file."""
+    filename = uploaded_file.name.lower()
+    if filename.endswith(".pdf"):
+        reader = PdfReader(uploaded_file)
+        pages = [page.extract_text() or "" for page in reader.pages]
+        return "\n\n".join(p.strip() for p in pages if p.strip())
+    raw_bytes = uploaded_file.getvalue()
+    return raw_bytes.decode("utf-8", errors="replace")
+
+
+@st.cache_data(show_spinner=False)
+def run_analysis(prompt_key: str, tc_text: str) -> dict:
+    """Execute the selected prompt version against Gemini (cached per prompt + input)."""
+    client = get_genai_client()
 
     if prompt_key == "v1_baseline":
         prompt = load_prompt("v1_baseline.txt").format(tc_text=tc_text)
@@ -86,7 +90,7 @@ def run_analysis(prompt_key: str, tc_text: str, api_key: str) -> dict:
 
     # v3_chained: Step 1 (Extractor) -> Step 2 (Simplifier)
     s1_prompt = load_prompt("v3_step1_extractor.txt").format(tc_text=tc_text)
-    s1_out, s1_lat = call_gemini(client, s1_prompt, json_mode=True, temperature=0.0)
+    s1_out, s1_lat = call_gemini(client, s1_prompt, json_mode=True, temperature=0.1)
 
     s2_prompt = load_prompt("v3_step2_simplifier.txt").format(step1_json=s1_out)
     s2_out, s2_lat = call_gemini(client, s2_prompt, json_mode=True, temperature=0.1)
@@ -120,17 +124,29 @@ def main() -> None:
         sample_names = [f.name for f in test_files] + ["Custom Input (Paste Below)"]
         selected_sample = st.selectbox("Load Sample T&C", options=sample_names, index=0)
 
-        env_key = os.getenv("GEMINI_API_KEY", "")
-        api_key_input = st.text_input(
-            "Gemini API Key (from .env or override)",
-            value=env_key if env_key != "your_key_here" else "",
-            type="password",
-        )
+        env_key = os.getenv("GEMINI_API_KEY", "").strip()
+        if env_key and env_key != "your_key_here":
+            st.success("API Connected (.env)")
+        else:
+            st.error("GEMINI_API_KEY missing in .env")
+
         st.caption(f"Model: `{MODEL_NAME}`")
 
-    # Load selected T&C text
+    # File uploader above text area
+    uploaded_file = st.file_uploader(
+        "Upload Terms & Conditions (PDF or TXT)",
+        type=["pdf", "txt"],
+    )
+
     default_text = ""
-    if selected_sample != "Custom Input (Paste Below)":
+    if uploaded_file is not None:
+        try:
+            default_text = extract_uploaded_text(uploaded_file)
+            if not default_text.strip():
+                st.warning("Uploaded file appears to contain no extractable text.")
+        except Exception as exc:
+            st.error(f"Could not read uploaded file: {exc}")
+    elif selected_sample != "Custom Input (Paste Below)":
         matched = next((f for f in test_files if f.name == selected_sample), None)
         if matched:
             default_text = matched.read_text(encoding="utf-8")
@@ -139,7 +155,7 @@ def main() -> None:
         "Terms & Conditions Input Text",
         value=default_text,
         height=240,
-        placeholder="Paste Terms & Conditions text here or select a sample from the sidebar...",
+        placeholder="Paste Terms & Conditions text here, upload a PDF/TXT above, or select a sample from the sidebar...",
     )
 
     analyze_clicked = st.button("Analyze Terms & Conditions", type="primary")
@@ -150,7 +166,7 @@ def main() -> None:
         else:
             with st.spinner(f"Running {selected_label} with `{MODEL_NAME}`..."):
                 try:
-                    st.session_state["last_result"] = run_analysis(prompt_key, tc_text, api_key_input)
+                    st.session_state["last_result"] = run_analysis(prompt_key, tc_text)
                     st.session_state["last_source"] = tc_text
                 except Exception as exc:
                     st.error(f"Analysis failed: {exc}")

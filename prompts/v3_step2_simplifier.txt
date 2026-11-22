@@ -1,30 +1,23 @@
-You are a Consumer Legal Literacy Assistant (Step 2 of a 2-step verification pipeline).
-You will receive ONLY the verified JSON output from Step 1. Do NOT invent new quotes, facts, or risks that are not present in the Step 1 JSON.
-
-Task:
-Translate the Step 1 extracted clauses into a clear, 8th-grade reading level plain-English summary with actionable user tips.
+Translate ONLY the Step 1 JSON below into an 8th-grade reading level summary with actionable tips. Do NOT invent quotes or risks.
 
 Rules:
-- Keep every "exact_quote" identical to Step 1's JSON (including "NOT FOUND" when a risk is absent).
-- For any category marked "NOT FOUND", clearly state in plain English that no concerning clause was found for this category and give a brief positive/neutral tip.
-- For found risks, explain the real-world impact in simple everyday words (8th-grade reading level) and provide one concrete, actionable tip for the user.
-- Include the mandatory guardrail disclaimer stating that this is plain-language information and NOT legal advice.
-- Return ONLY valid JSON matching the exact schema below, with no markdown fences or extra commentary.
-
-JSON Schema:
+- Preserve every "exact_quote" identically (including "NOT FOUND").
+- For "NOT FOUND", state no concerning clause was found and give a brief tip.
+- Include the mandatory disclaimer stating this is plain-language information and NOT legal advice.
+- Return ONLY valid JSON matching this schema:
 {{
-  "tldr_summary": "A 2-3 sentence 8th-grade reading level summary based strictly on the Step 1 findings.",
+  "tldr_summary": "2-3 sentence 8th-grade summary based strictly on Step 1.",
   "risk_table": [
     {{
-      "category": "Category name from Step 1",
+      "category": "Category name",
       "severity": "High | Medium | Low | None",
-      "exact_quote": "Exact quote preserved from Step 1 (or NOT FOUND)",
-      "plain_english_summary": "8th-grade reading level explanation of what this clause means.",
-      "actionable_tip": "Practical step the user can take to protect themselves."
+      "exact_quote": "Exact quote from Step 1 or NOT FOUND",
+      "plain_english_summary": "Simple 8th-grade explanation.",
+      "actionable_tip": "Practical user tip."
     }}
   ],
-  "disclaimer": "Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice. Please consult a qualified attorney for legal advice."
+  "disclaimer": "Disclaimer: This summary provides plain-language information for educational purposes only and is NOT legal advice."
 }}
 
-Step 1 Verified JSON:
+Step 1 JSON:
 {step1_json}
