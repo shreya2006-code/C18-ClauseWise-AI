@@ -1,0 +1,22 @@
+SNAPSPHERE SOCIAL NETWORK — TERMS OF SERVICE
+Effective Date: October 1, 2026
+
+Welcome to SnapSphere ("Platform", "we", "us", or "our"). By creating an account or accessing our mobile or web application, you ("User" or "you") agree to be bound by these Terms of Service.
+
+1. ELIGIBILITY AND ACCOUNT REGISTRATION
+You must be at least 13 years old to use SnapSphere. You are responsible for safeguarding your login credentials and all activity that occurs under your account.
+
+2. USER CONTENT AND INTELLECTUAL PROPERTY LICENSE
+You retain nominal ownership of the photos, videos, captions, and comments ("User Content") you post on SnapSphere. However, by uploading or sharing User Content, you grant SnapSphere and its affiliates a worldwide, non-exclusive, royalty-free, transferable, sub-licensable, perpetual, and irrevocable license to host, store, use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and publicly display your User Content in any media format, including for commercial promotional campaigns, without compensation or prior notice to you. This license survives even after you delete your account if your content was shared or re-posted by other users.
+
+3. PRIVACY AND THIRD-PARTY ADVERTISING DATA SHARING
+We collect your device identifiers, precise geolocation, contact lists, browsing history across partner websites, and biometric facial geometry from uploaded photos. SnapSphere may sell, license, or share your personal profile data, behavioral analytics, and inferred interests with third-party data brokers, advertisers, and marketing partners to deliver targeted advertising across external networks. Opting out of targeted ads does not stop data collection.
+
+4. ACCOUNT SUSPENSION AND TERMINATION
+SnapSphere reserves the right to suspend, restrict, or permanently terminate your account and delete all stored User Content at any time, in our sole discretion, with or without cause and without prior notice or liability. Upon termination, you waive any right to export or recover archived media.
+
+5. MANDATORY BINDING ARBITRATION AND CLASS ACTION WAIVER
+PLEASE READ THIS SECTION CAREFULLY. Any dispute, claim, or controversy arising out of or relating to these Terms or your use of SnapSphere shall be resolved exclusively through final and binding individual arbitration administered by the National Arbitration Forum, rather than in court. YOU WAIVE YOUR CONSTITUTIONAL RIGHT TO A JURY TRIAL AND AGREE THAT YOU MAY ONLY BRING CLAIMS IN YOUR INDIVIDUAL CAPACITY, NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, COLLECTIVE, OR REPRESENTATIVE PROCEEDING.
+
+6. GOVERNING LAW
+These Terms are governed by the laws of the State of Delaware, without regard to conflict of law principles.

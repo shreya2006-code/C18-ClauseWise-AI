@@ -1,0 +1,19 @@
+CLEARNOTE — PRIVACY-FIRST NOTES & JOURNALING TERMS OF SERVICE
+Effective Date: July 1, 2026
+
+Welcome to ClearNote ("we", "our", "us"). We built ClearNote to be simple, transparent, and respectful of your privacy.
+
+1. YOUR CONTENT BELONGS ENTIRELY TO YOU
+You retain 100% ownership and all intellectual property rights to every note, checklist, and attachment you create in ClearNote. We claim no license to use, publish, sell, or train AI models on your content. Your notes are end-to-end encrypted on your device before syncing, meaning ClearNote cannot read your notes.
+
+2. STRICT PRIVACY AND ZERO DATA SELLING
+We collect only the minimum information required to operate your account (your email address and encrypted sync metadata). We never sell, rent, or share your personal information with advertisers, data brokers, or third-party marketing networks. You can export all of your notes in standard Markdown or JSON format at any time, or permanently delete your account and all server backups with one click.
+
+3. TRANSPARENT PRICING AND EASY CANCELLATION
+ClearNote offers a free tier with no ads. Optional Pro subscriptions are billed monthly or annually with clear email reminders sent 7 days before any renewal. You may cancel anytime in two clicks from your account settings, and we offer a full, no-questions-asked refund within 30 days of any annual charge. There are no hidden fees or surge charges.
+
+4. FAIR ACCOUNT TERMINATION POLICY
+We will only suspend an account if required by law or in cases of severe abuse such as distributing malware. Before any non-emergency suspension, we will give you at least 14 days' written notice by email and allow you to export your data.
+
+5. OPEN DISPUTE RESOLUTION
+If you have a concern, please contact our support team first so we can resolve it informally. We do not require forced arbitration, and you retain full rights to bring any unresolved legal claim in small claims court or a court of competent jurisdiction in your local area.

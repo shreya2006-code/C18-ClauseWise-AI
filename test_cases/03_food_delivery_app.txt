@@ -1,0 +1,19 @@
+QUICKBITE EXPRESS — FOOD DELIVERY USER AGREEMENT
+Effective Date: August 20, 2026
+
+By downloading or placing an order through the QuickBite Express mobile application ("QuickBite", "we", "our"), you agree to the following Terms and Conditions.
+
+1. DYNAMIC PRICING, SURGE FEES, AND SERVICE CHARGES
+Menu prices displayed on QuickBite may be higher than in-restaurant prices. In addition to delivery fees, QuickBite automatically applies variable "Platform Maintenance Fees," "Peak Demand Surge Fees," and "Local Regulatory Recovery Charges" at checkout. These fees are calculated dynamically and may change after you add items to your cart up until final payment authorization. Promotional coupons do not apply to service or surge fees.
+
+2. NO LIABILITY FOR DELIVERY DELAYS OR ORDER ERRORS
+QuickBite acts solely as an intermediary technology platform connecting you with independent restaurants and third-party couriers. WE PROVIDE NO GUARANTEE REGARDING DELIVERY TIMES, FOOD TEMPERATURE, ALLERGEN HANDLING, OR ORDER ACCURACY. QuickBite disclaims all liability for late, spoiled, missing, or damaged deliveries, and refunds or credits for defective orders are granted strictly at our sole discretion, subject to a maximum cap of $10 per incident.
+
+3. CONTINUOUS BACKGROUND LOCATION TRACKING
+To enable delivery routing, fraud prevention, and neighborhood demand forecasting, you consent to QuickBite collecting your precise GPS location continuously in the background, even when the app is closed and no active order is in progress. We may share your order history, dining preferences, and location logs with restaurant partners and third-party analytics firms.
+
+4. ACCOUNT DEACTIVATION AND WALLET FORFEITURE
+QuickBite may deactivate your account at any time without prior warning if our automated fraud detection flags excessive refund requests or chargebacks. Upon deactivation, any unused QuickBite promotional credits or gift card balances in your in-app wallet are immediately forfeited without compensation.
+
+5. MANDATORY ARBITRATION
+All claims against QuickBite must be resolved through binding individual arbitration under the rules of the American Arbitration Association, and you waive any right to participate in class action lawsuits.

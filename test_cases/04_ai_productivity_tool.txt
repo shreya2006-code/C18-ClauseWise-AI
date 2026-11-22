@@ -1,0 +1,19 @@
+NOVAWRITE AI — PRODUCTIVITY & WRITING ASSISTANT TERMS OF SERVICE
+Effective Date: November 1, 2026
+
+Welcome to NovaWrite AI ("NovaWrite", "Company", "we"). These Terms govern your use of our cloud-based AI writing, coding, and document summarization workspace.
+
+1. LICENSE TO USER INPUTS AND AI MODEL TRAINING
+When you upload documents, prompts, source code, or confidential drafts ("Inputs") to NovaWrite, you retain copyright to your original Inputs. However, you grant NovaWrite a worldwide, perpetual, royalty-free, irrevocable license to use, copy, store, process, and analyze your Inputs and AI-generated Outputs to train, fine-tune, evaluate, and improve our proprietary machine learning models and commercial AI products, without opt-out options on standard or pro plans.
+
+2. VAGUE DATA RETENTION AND HUMAN REVIEW
+We retain your Inputs, Outputs, and conversation logs indefinitely for quality assurance, safety monitoring, and model development. Authorized employees, third-party contractors, and annotation vendors may read and review your submitted prompts and documents. Do not submit sensitive personal, medical, or proprietary business information if you do not wish it to be reviewed or retained.
+
+3. BROAD USER INDEMNIFICATION
+You agree to defend, indemnify, and hold harmless NovaWrite, its officers, employees, and affiliates from and against any and all claims, damages, liabilities, legal fees, and costs arising out of (a) your Inputs or Outputs, (b) any third-party intellectual property infringement claim triggered by AI-generated text you publish, or (c) your violation of these Terms, even if the Output was generated autonomously by NovaWrite's models.
+
+4. SUBSCRIPTION BILLING AND AUTOMATIC RENEWAL
+Paid workspace plans automatically renew monthly or annually unless canceled prior to the renewal date. Unused monthly token credits do not roll over and expire at the end of each billing cycle.
+
+5. ACCOUNT TERMINATION AND DATA LOSS
+We may suspend or terminate your access immediately without notice if our automated filters detect prohibited content or unusual API usage. Upon termination, your saved workspaces and documents may be permanently erased without an export window.

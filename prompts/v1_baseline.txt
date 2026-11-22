@@ -1,0 +1,4 @@
+Summarize the following Terms and Conditions document and list any potential risks to the user.
+
+Terms and Conditions:
+{tc_text}
